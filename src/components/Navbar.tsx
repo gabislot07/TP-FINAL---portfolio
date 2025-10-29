@@ -1,7 +1,98 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, type ReactNode } from "react";
 import { Menu, X, Languages } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
-import { Button } from "@/components/ui/button";
+
+/**
+ * Local fallback Button component to avoid a missing external module.
+ * It provides minimal styling and API compatible with usages in this file.
+ */
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: "default" | "outline" | string;
+  size?: "sm" | "md" | "lg" | string;
+  children?: ReactNode;
+  className?: string;
+};
+
+const Button = ({ variant, size, className = "", children, ...rest }: ButtonProps) => {
+  const base = "inline-flex items-center justify-center rounded-md focus:outline-none transition";
+  const variants: Record<string, string> = {
+    default: "bg-primary text-primary-foreground",
+    outline: "border border-primary text-primary bg-transparent",
+  };
+  const sizes: Record<string, string> = {
+    sm: "px-2 py-1 text-sm",
+    md: "px-3 py-2 text-base",
+    lg: "px-4 py-2 text-lg",
+  };
+  const cls = [base, variants[variant ?? "default"] || "", sizes[size ?? "md"] || "", className].join(" ").trim();
+
+  return (
+    <button className={cls} {...rest}>
+      {children}
+    </button>
+  );
+};
+
+/**
+ * Local fallback implementation of useLanguage to avoid a missing external module.
+ * This keeps Navbar self-contained: it stores the language in localStorage and
+ * provides a minimal translation function for the nav labels used in this file.
+ */
+type Language = "en" | "es";
+
+const defaultTranslations: Record<Language, Record<string, any>> = {
+  en: {
+    nav: {
+      home: "Home",
+      about: "About",
+      projects: "Projects",
+      skills: "Skills",
+      contact: "Contact",
+    },
+  },
+  es: {
+    nav: {
+      home: "Inicio",
+      about: "Acerca",
+      projects: "Proyectos",
+      skills: "Habilidades",
+      contact: "Contacto",
+    },
+  },
+};
+
+function useLanguage() {
+  const [language, setLanguage] = useState<Language>(() => {
+    try {
+      const stored = localStorage.getItem("lang") as Language | null;
+      return stored || "en";
+    } catch {
+      return "en";
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("lang", language);
+    } catch {
+      // ignore localStorage errors (e.g. SSR or privacy mode)
+    }
+  }, [language]);
+
+  const t = (key: string) => {
+    const parts = key.split(".");
+    let cur: any = defaultTranslations[language];
+    for (const p of parts) {
+      if (cur && typeof cur === "object" && p in cur) {
+        cur = cur[p];
+      } else {
+        return key; // fallback to the key if not found
+      }
+    }
+    return typeof cur === "string" ? cur : key;
+  };
+
+  return { language, setLanguage, t };
+}
 
 const Navbar = () => {
   const { language, setLanguage, t } = useLanguage();

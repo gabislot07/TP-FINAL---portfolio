@@ -1,6 +1,6 @@
 import { ExternalLink, Rocket, Eye, Brain, Users } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/Card";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const Projects = () => {
   const { t } = useLanguage();

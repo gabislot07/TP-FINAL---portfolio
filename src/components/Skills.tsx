@@ -1,5 +1,14 @@
 import { Briefcase, TrendingUp, Code, MessageSquare, Globe } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+
+type Translations = Record<string, string>;
+const defaultTranslations: Translations = {
+  "skills.title": "Habilidades",
+};
+
+export const useLanguage = () => {
+  const t = (key: string) => defaultTranslations[key] ?? key;
+  return { t };
+};
 
 const Skills = () => {
   const { t } = useLanguage();

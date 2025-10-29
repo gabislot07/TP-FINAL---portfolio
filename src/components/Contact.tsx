@@ -1,6 +1,6 @@
 import { MessageCircle, Linkedin, Mail, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "./ui/Button";
+import { useLanguage } from "../contexts/LanguageContext";
 
 const Contact = () => {
   const { t } = useLanguage();
