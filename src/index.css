@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 220 13% 9%;
+    --foreground: 210 20% 98%;
+
+    --card: 220 13% 12%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 220 13% 12%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 193 100% 47%;
+    --primary-foreground: 220 13% 9%;
+
+    --secondary: 220 13% 16%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 220 13% 16%;
+    --muted-foreground: 215 15% 65%;
+
+    --accent: 193 100% 47%;
+    --accent-foreground: 220 13% 9%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 13% 20%;
+    --input: 220 13% 20%;
+    --ring: 193 100% 47%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(193, 100%, 47%), hsl(193, 100%, 35%));
+    --gradient-card: linear-gradient(135deg, hsl(220, 13%, 12%), hsl(220, 13%, 14%));
+    --shadow-glow: 0 0 40px hsl(193 100% 47% / 0.15);
+    --shadow-card: 0 4px 24px hsl(220 13% 5% / 0.4);
+    --shadow-elegant: 0 10px 30px -10px hsl(193 100% 47% / 0.3);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent;
+  }
+
+  .card-gradient {
+    background: var(--gradient-card);
+  }
+
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+}
