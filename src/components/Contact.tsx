@@ -1,6 +1,20 @@
 import { MessageCircle, Linkedin, Mail, FileText } from "lucide-react";
-import { Button } from "./ui/Button";
-import { useLanguage } from "../contexts/LanguageContext";
+import { Button } from "./ui/button";
+
+const messages: Record<string, string> = {
+  "contact.title": "Contact",
+  "contact.whatsapp": "WhatsApp",
+  "contact.linkedin": "LinkedIn",
+  "contact.email": "Email",
+  "contact.downloadCV": "Download CV",
+  "contact.thanks": "Thanks for visiting!",
+};
+
+const useLanguage = () => {
+  return {
+    t: (key: string) => messages[key] ?? key,
+  };
+};
 
 const Contact = () => {
   const { t } = useLanguage();

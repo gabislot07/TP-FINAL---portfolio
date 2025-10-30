@@ -1,6 +1,23 @@
 import { ExternalLink, Rocket, Eye, Brain, Users } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/Card";
-import { useLanguage } from "../contexts/LanguageContext";
+import React from "react";
+
+const useLanguage = () => {
+  // Minimal fallback translator used when ../contexts/LanguageContext is not present.
+  // It returns keys by default so the app still compiles and renders predictable text.
+  const t = (key: string) => {
+    const translations: Record<string, string> = {
+      "projects.title": "Projects",
+      "projects.aguila.role": "Co-founder",
+      "projects.aguila.description": "Descripción del proyecto Águila.",
+      "projects.pipeeye.role": "Developer",
+      "projects.pipeeye.description": "Descripción del proyecto PipeEye.",
+    };
+    return translations[key] ?? key;
+  };
+
+  return { t };
+};
 
 const Projects = () => {
   const { t } = useLanguage();

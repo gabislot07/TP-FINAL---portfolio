@@ -1,7 +1,27 @@
 import { FileText, MessageCircle, Linkedin, ArrowDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/contexts/LanguageContext";
-import fotoMia from "@/assets/foto_mia.jfif";
+import { Button } from "./ui/button";
+
+// Fallback local useLanguage hook in case ../contexts/LanguageContext is missing.
+// This provides minimal translations used by this component and avoids the import error.
+type UseLanguage = { t: (key: string) => string };
+
+const defaultTranslations: Record<string, string> = {
+  "hero.title": "Hi, I'm Gabriel",
+  "hero.projects": "projects",
+  "hero.with": "with",
+  "hero.impact": "impact",
+  "hero.viewCV": "View CV",
+  "hero.whatsapp": "WhatsApp",
+  "hero.linkedin": "LinkedIn",
+  "hero.viewProjects": "View projects",
+};
+
+const useLanguage = (): UseLanguage => {
+  const t = (key: string) => defaultTranslations[key] ?? key;
+  return { t };
+};
+
+const fotoMia = '/assets/foto_mia.jfif';
 
 const Hero = () => {
   const { t } = useLanguage();

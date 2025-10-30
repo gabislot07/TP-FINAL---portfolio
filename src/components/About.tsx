@@ -1,4 +1,44 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import React, { createContext, useContext, useState, ReactNode } from "react";
+
+type LanguageContextValue = {
+  t: (key: string) => string;
+  language: string;
+  setLanguage: (lang: string) => void;
+};
+
+const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
+
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
+  const [language, setLanguage] = useState("en");
+  const t = (key: string) => {
+    // Simple placeholder translator; replace with your translations
+    const translations: Record<string, Record<string, string>> = {
+      en: {
+        "about.title": "About",
+        "about.me": "me",
+        "about.text1": "Text1",
+        "about.text2": "Text2",
+        "about.founder": "Founder",
+        "about.and": "and",
+        "about.cofounder": "Co-founder",
+        "about.text3": "Text3",
+      },
+    };
+    return translations[language]?.[key] ?? key;
+  };
+
+  return (
+    <LanguageContext.Provider value={{ t, language, setLanguage }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+export const useLanguage = () => {
+  const ctx = useContext(LanguageContext);
+  if (!ctx) throw new Error("useLanguage must be used within LanguageProvider");
+  return ctx;
+};
 
 const About = () => {
   const { t } = useLanguage();
